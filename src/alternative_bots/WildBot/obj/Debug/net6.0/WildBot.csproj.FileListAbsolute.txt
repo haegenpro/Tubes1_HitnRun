@@ -1,0 +1,6 @@
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.csproj.AssemblyReference.cache
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.AssemblyInfoInputs.cache
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.AssemblyInfo.cs
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.csproj.CoreCompileInputs.cache
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.sourcelink.json

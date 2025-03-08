@@ -3,27 +3,20 @@ using Robocode.TankRoyale.BotApi;
 using Robocode.TankRoyale.BotApi.Events;
 
 // ------------------------------------------------------------------
-// Crazy
+// WildBot
 // ------------------------------------------------------------------
-// A sample bot original made for Robocode by Mathew Nelson.
-// Ported to Robocode Tank Royale by Flemming N. Larsen.
-//
-// This bot moves around in a crazy pattern.
+// This bot fires 0.5 bullets using a linear projection of the enemy position, maximizing the number of bullets fired.
 // ------------------------------------------------------------------
 public class WildBot : Bot
 {
     bool movingForward;
 
-    // The main method starts our bot
     static void Main()
     {
         new WildBot().Start();
     }
-
-    // Constructor, which loads the bot config file
     WildBot() : base(BotInfo.FromFile("WildBot.json")) { }
 
-    // Called when a new round is started -> initialize and do some movement
     public override void Run()
     {
         BodyColor = Color.FromArgb(0x00, 0xC8, 0x00);   // lime
@@ -34,66 +27,109 @@ public class WildBot : Bot
         movingForward = true;
 
         while (IsRunning)
-    {
-        if (movingForward)
-            Forward(1000);  // move forward 100 units
-        else
-            Back(1000);     // move backward 100 units
-
-        // Rotate gun (and optionally radar) to scan for opponents.
-        TurnGunRight(360);
-        TurnRadarRight(360);
-        Go();
+        {
+            if (movingForward)
+                Forward(100);  // move forward 100 units
+            else
+                Back(100);     // move backward 100 units
+            WaitFor(new TurnCompleteCondition(this));
+            int random = new Random().Next(0, 7);
+            if (random == 0)
+                SetTurnRight(45);
+            else if (random == 1)
+                SetTurnLeft(45);
+            else if (random == 2)
+                SetTurnRight(90);
+            else if (random == 3)
+                SetTurnLeft(90);
+            else if (random == 4)
+                SetTurnRight(180);
+            else if (random == 5)
+                SetTurnLeft(180);
+            else if (random == 6)
+                SetTurnRight(360);
+            else if (random == 7)
+                SetTurnLeft(360);
+            TurnGunRight(360);
+            TurnRadarRight(360);
+            Go();
+        }
     }
-    }
-
-    // We collided with a wall -> reverse the direction
     public override void OnHitWall(HitWallEvent e)
     {
         ReverseDirection();
     }
-
-    // ReverseDirection: Switch from ahead to back & vice versa
     public void ReverseDirection()
     {
         movingForward = !movingForward;
     }
-    
-    // We scanned another bot -> fire based on the bot speed
     public override void OnScannedBot(ScannedBotEvent e)
     {
         SmartFire(e);
     }
-
-    // We hit another bot -> back up!
     public override void OnHitBot(HitBotEvent e)
     {
-        
+        Back(1);
+        SmartFire(e);
+        Back(100);
     }
     private void SmartFire(ScannedBotEvent e)
     {
         int damage;
-        double distance = DistanceTo(e.X, e.Y);
-        if (distance > 200 || Energy < 5)
-            damage = 1;
-        else
+        if (e.Distance < 25 && Energy > 25){
             damage = 3;
-        
+        } else{
+            damage = 0.5;
+        }
+        double bulletspeed = 20 - damage * 3;
+        double angle = CalculateLeadAngle(X, Y, e.X, e.Y, e.VelocityX, e.VelocityY, bulletspeed);
+        double anglediff = (angle - GunDirection) % 360;
+        while (anglediff > 180) anglediff -= 360;
+        while (anglediff < -180) anglediff += 360;
+        if (angleDiff < 0)
+        {
+            TurnGunLeft(-angleDiff);
+        }
+        else
+        {
+            TurnGunRight(angleDiff);
+        }
+        Fire(damage);
     }
-    private void ContinuousFire(ScannedBotEvent e)
-    
-}
 
-// Condition that is triggered when the turning is complete
+    private double CalculateLeadAngle(double thisX, double thisY, double targetX, double targetY, double targetVx, double targetVy, double bulletSpeed)
+    {
+        // Angle from shooter to target (line-of-sight)
+        double angleToTarget = Math.Atan2(targetY - thisY, targetX - thisX);
+        // Angle of the target's velocity vector
+        double targetVelocityAngle = Math.Atan2(targetVy, targetVx);
+        double phi = targetVelocityAngle - angleToTarget;
+        // Normalize phi to the range [-π, π]
+        phi = ((phi + Math.PI) % (2 * Math.PI)) - Math.PI;
+        // Calculate the target's speed (magnitude of the velocity vector)
+        double targetSpeed = Math.Sqrt(targetVx * targetVx + targetVy * targetVy);
+        double leadAngle = Math.Atan2(targetSpeed * Math.Sin(phi),
+                                      bulletSpeed - targetSpeed * Math.Cos(phi));
+        return leadAngle * 180.0 / Math.PI; // result in radians
+    }
+}
 public class TurnCompleteCondition : Condition
 {
-    
-}
+    private readonly Bot bot;
 
-// Condition that the bot is near a wall
+    public TurnCompleteCondition(Bot bot)
+    {
+        this.bot = bot;
+    }
+
+    public override bool Test()
+    {
+        return bot.TurnRemaining == 0;
+    }
+}
 public class NearWallCondition : Condition
 {
-    public bool NearWall(Bot bot)
+    private bool NearWall(Bot bot)
     {
         return bot.X < 25 || bot.Y < 25 || bot.BattleFieldWidth - bot.X < 25 ||  bot.BattleFieldHeight - bot.Y < 25;    
     }
