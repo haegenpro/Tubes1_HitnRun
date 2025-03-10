@@ -29,9 +29,9 @@ public class WildBot : Bot
         while (IsRunning)
         {
             if (movingForward)
-                Forward(100);  // move forward 100 units
+                Forward(1000);
             else
-                Back(100);     // move backward 100 units
+                Back(1000);
             WaitFor(new TurnCompleteCondition(this));
             int random = new Random().Next(0, 7);
             if (random == 0)
@@ -52,7 +52,6 @@ public class WildBot : Bot
                 SetTurnLeft(360);
             TurnGunRight(360);
             TurnRadarRight(360);
-            Go();
         }
     }
     public override void OnHitWall(HitWallEvent e)
@@ -127,11 +126,11 @@ public class TurnCompleteCondition : Condition
         return bot.TurnRemaining == 0;
     }
 }
-public class NearWallCondition : Condition
+/* public class NearWallCondition : Condition
 {
     private bool NearWall(Bot bot)
     {
-        return bot.X < 25 || bot.Y < 25 || bot.BattleFieldWidth - bot.X < 25 ||  bot.BattleFieldHeight - bot.Y < 25;    
+        return bot.X < 22 || bot.Y < 22 || bot.BattleFieldWidth - bot.X < 22 ||  bot.BattleFieldHeight - bot.Y < 22;    
     }
     public override void OnNearWall()
     {
@@ -140,4 +139,4 @@ public class NearWallCondition : Condition
             ReverseDirection();
         }
     }
-}
+} */

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WildBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5082c9b67fee37244594b79aed084486a6a155f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4ea444a851dc5527023953458caec0234ac9833")]
 [assembly: System.Reflection.AssemblyProductAttribute("WildBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WildBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
