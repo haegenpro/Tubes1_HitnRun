@@ -1,6 +1,8 @@
+using System;
 using System.Drawing;
 using Robocode.TankRoyale.BotApi;
 using Robocode.TankRoyale.BotApi.Events;
+using static System.Math; // Allows you to call Sqrt, Sin, Cos directly
 
 // ------------------------------------------------------------------
 // WildBot
@@ -20,12 +22,13 @@ public class WildBot : Bot
     public override void Run()
     {
         BodyColor = Color.FromArgb(0x00, 0xC8, 0x00);   // lime
-        TurretColor = Color.FromArgb(0x00, 0x96, 0x32); // green
-        RadarColor = Color.FromArgb(0x00, 0x64, 0x64);  // dark cyan
+        TurretColor = Color.FromArgb(0x00, 0x96, 0x32);   // green
+        RadarColor = Color.FromArgb(0x00, 0x64, 0x64);    // dark cyan
         BulletColor = Color.FromArgb(0x00, 0xC8, 0x00);
-        ScanColor = Color.FromArgb(0xFF, 0xC8, 0xC8);   // light red
+        ScanColor = Color.FromArgb(0xFF, 0xC8, 0xC8);     // light red
         movingForward = true;
 
+        Random rand = new Random();
         while (IsRunning)
         {
             if (movingForward)
@@ -33,7 +36,7 @@ public class WildBot : Bot
             else
                 Back(1000);
             WaitFor(new TurnCompleteCondition(this));
-            int random = new Random().Next(0, 7);
+            int random = rand.Next(0, 8);
             if (random == 0)
                 SetTurnRight(45);
             else if (random == 1)
@@ -74,17 +77,46 @@ public class WildBot : Bot
     }
     private void SmartFire(ScannedBotEvent e)
     {
-        int damage;
-        if (e.Distance < 25 && Energy > 25){
+        double damage;
+        double distance = Sqrt((e.X - X) * (e.X - X) + (e.Y - Y) * (e.Y - Y));
+        if (distance < 25 && Energy > 25){
             damage = 3;
         } else{
             damage = 0.5;
         }
         double bulletspeed = 20 - damage * 3;
-        double angle = CalculateLeadAngle(X, Y, e.X, e.Y, e.VelocityX, e.VelocityY, bulletspeed);
-        double anglediff = (angle - GunDirection) % 360;
-        while (anglediff > 180) anglediff -= 360;
-        while (anglediff < -180) anglediff += 360;
+        double velocityx = e.Speed * Cos(e.Direction);
+        double velocityy = e.Speed * Sin(e.Direction);
+        double angle = CalculateLeadAngle(X, Y, e.X, e.Y, velocityx, velocityy, bulletspeed);
+        double angleDiff = (angle - GunDirection) % 360;
+        if (angleDiff > 180) angleDiff -= 360;
+        if (angleDiff < -180) angleDiff += 360;
+        if (angleDiff < 0)
+        {
+            TurnGunLeft(-angleDiff);
+        }
+        else
+        {
+            TurnGunRight(angleDiff);
+        }
+        Fire(damage);
+    }
+    private void SmartFire(HitBotEvent e)
+    {
+        double damage;
+        double distance = Sqrt((e.X - X) * (e.X - X) + (e.Y - Y) * (e.Y - Y));
+        if (distance < 25 && Energy > 25)
+        {
+            damage = 3;
+        }
+        else
+        {
+            damage = 0.5;
+        }
+        double angle = CalculateLeadAngle(X, Y, e.X, e.Y);
+        double angleDiff = (angle - GunDirection) % 360;
+        if (angleDiff > 180) angleDiff -= 360;
+        if (angleDiff < -180) angleDiff += 360;
         if (angleDiff < 0)
         {
             TurnGunLeft(-angleDiff);
@@ -99,19 +131,26 @@ public class WildBot : Bot
     private double CalculateLeadAngle(double thisX, double thisY, double targetX, double targetY, double targetVx, double targetVy, double bulletSpeed)
     {
         // Angle from shooter to target (line-of-sight)
-        double angleToTarget = Math.Atan2(targetY - thisY, targetX - thisX);
+        double angleToTarget = Atan2(targetY - thisY, targetX - thisX);
         // Angle of the target's velocity vector
-        double targetVelocityAngle = Math.Atan2(targetVy, targetVx);
+        double targetVelocityAngle = Atan2(targetVy, targetVx);
         double phi = targetVelocityAngle - angleToTarget;
         // Normalize phi to the range [-π, π]
-        phi = ((phi + Math.PI) % (2 * Math.PI)) - Math.PI;
+        phi = ((phi + PI) % (2 * PI)) - PI;
         // Calculate the target's speed (magnitude of the velocity vector)
-        double targetSpeed = Math.Sqrt(targetVx * targetVx + targetVy * targetVy);
-        double leadAngle = Math.Atan2(targetSpeed * Math.Sin(phi),
-                                      bulletSpeed - targetSpeed * Math.Cos(phi));
-        return leadAngle * 180.0 / Math.PI; // result in radians
+        double targetSpeed = Sqrt(targetVx * targetVx + targetVy * targetVy);
+        double leadAngle = Atan2(targetSpeed * Sin(phi),
+                                 bulletSpeed - targetSpeed * Cos(phi));
+        return leadAngle * 180.0 / PI; // result in degrees
+    }
+
+    private double CalculateLeadAngle(double thisX, double thisY, double targetX, double targetY)
+    {
+        double angleToTarget = Atan2(targetY - thisY, targetX - thisX);
+        return angleToTarget * 180.0 / PI; // convert to degrees
     }
 }
+
 public class TurnCompleteCondition : Condition
 {
     private readonly Bot bot;
@@ -126,17 +165,3 @@ public class TurnCompleteCondition : Condition
         return bot.TurnRemaining == 0;
     }
 }
-/* public class NearWallCondition : Condition
-{
-    private bool NearWall(Bot bot)
-    {
-        return bot.X < 22 || bot.Y < 22 || bot.BattleFieldWidth - bot.X < 22 ||  bot.BattleFieldHeight - bot.Y < 22;    
-    }
-    public override void OnNearWall()
-    {
-        if (NearWall(bot))
-        {
-            ReverseDirection();
-        }
-    }
-} */
