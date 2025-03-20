@@ -17,7 +17,8 @@ public class Trishula : Bot
     private PointD curPos, prevPos, nextPos;
 
     private static Random rand = new Random();
-    
+    //private int lastScannedTime = 0;
+    private const int radarSweepInterval = 50;
     static void Main(string[] args)
     {
         new Trishula().Start();
@@ -41,7 +42,7 @@ public class Trishula : Bot
         curPos = new PointD(X, Y);
         nextPos = curPos;
         prevPos = curPos;
-        SetTurnRadarRight(Double.PositiveInfinity);
+        SetTurnRadarLeft(Double.PositiveInfinity);
 
         RectangleD battlefield = new RectangleD(27, 27, ArenaWidth - 54, ArenaHeight - 54);
         while (IsRunning)
@@ -71,6 +72,7 @@ public class Trishula : Bot
             
             SetForward(distanceToDest * direction);
             SetTurnLeft(angle);
+            SetTurnRadarLeft(-angle);
             TargetSpeed = Math.Abs(angle) > 60 ? 0 : 8;
         }
     }
@@ -107,70 +109,74 @@ public class Trishula : Bot
 
     public override void OnScannedBot(ScannedBotEvent e)
     {
-        Enemy en;
-        if (!enemies.TryGetValue(e.ScannedBotId, out en)) {
+        if (!enemies.TryGetValue(e.ScannedBotId, out Enemy en)) {
             en = new Enemy(e.ScannedBotId, new PointD(e.X, e.Y), e.Energy, e.Speed);
             enemies.Add(e.ScannedBotId, en);
         } else {
-            enemies[e.ScannedBotId].location.X = e.X;
-            enemies[e.ScannedBotId].location.Y = e.Y;
-            enemies[e.ScannedBotId].energy = e.Energy;
-            enemies[e.ScannedBotId].speed = e.Speed;
+            en.location.X = e.X;
+            en.location.Y = e.Y;
+            en.energy = e.Energy;
+            en.speed = e.Speed;
         }
-
         if (target == null || DistanceTo(e.X, e.Y) < DistanceTo(target.location.X, target.location.Y))
         {
             target = en;
         }
+        //AimAndFire(e);
+        LockRadar(e);
+        Move(battlefield);
+    }
+
+    private void AimAndFire(ScannedBotEvent e)
+    {
         double distance = DistanceTo(e.X, e.Y);
-        double firePower;
-        if (distance < 10)
-        {
-            firePower = 3;
-        }
-        else
-        {
-            if (Energy < 10)
-                firePower = 0.5;
-            else if (distance > 300)
-                firePower = 1;
-            else if (distance > 150)
-                firePower = 2;
-            else
-                firePower = 3;
-        }
+        double firePower = (distance < 10) ? 3 : (Energy < 10) ? 0.5 : (distance > 300) ? 1 : (distance > 150) ? 2 : 3;
         double bulletSpeed = CalcBulletSpeed(firePower);
-        double timeToTarget = distance / bulletSpeed;
-        double enemyXPredicted = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180) * timeToTarget;
-        double enemyYPredicted = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180) * timeToTarget;
-        double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
-        double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
-        double predictedAngle = DirectionTo(enemyXPredicted, enemyYPredicted);
-        double radarLockAngle = DirectionTo(nextX, nextY);
-        double gunTurn = CalcGunBearing(predictedAngle);
-        if (gunTurn < 0)
+        
+        // Enemy velocity components
+        double enemyVX = e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double enemyVY = e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        
+        // Quadratic formula to solve for t
+        double dx = e.X - X;
+        double dy = e.Y - Y;
+        double a = enemyVX * enemyVX + enemyVY * enemyVY - bulletSpeed * bulletSpeed;
+        double b = 2 * (dx * enemyVX + dy * enemyVY);
+        double c = dx * dx + dy * dy;
+        double discriminant = b * b - 4 * a * c;
+
+        double t = 0;
+        if (a != 0 && discriminant >= 0)
         {
-            SetTurnGunRight(-gunTurn);
+            double t1 = (-b + Math.Sqrt(discriminant)) / (2 * a);
+            double t2 = (-b - Math.Sqrt(discriminant)) / (2 * a);
+            t = (t1 > 0) ? t1 : (t2 > 0) ? t2 : 0;
         }
         else
         {
-            SetTurnGunLeft(gunTurn);
+            // Fallback: Assume enemy moves in a straight line for a fixed time
+            t = distance / bulletSpeed;
         }
+        double enemyXPredicted = e.X + enemyVX * t;
+        double enemyYPredicted = e.Y + enemyVY * t;
+        double predictedAngle = DirectionTo(enemyXPredicted, enemyYPredicted);
+        double gunTurn = CalcGunBearing(predictedAngle);
+        SetTurnGunLeft(gunTurn);
         if (GunHeat == 0 && Energy > 3)
         {
             SetFire(firePower);
         }
-        double radarTurn = CalcRadarBearing(radarLockAngle);
-        if (radarTurn < 0)
-        {
-            SetTurnRadarRight(-radarTurn);
-        }
-        else
-        {
-            SetTurnRadarLeft(radarTurn);
-        }
     }
-
+    private void LockRadar(ScannedBotEvent e)
+    {
+        double enextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double enextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double dy = Speed * Math.Cos(Direction * Math.PI / 180);
+        double dx = Speed * Math.Sin(Direction * Math.PI / 180);
+        double radarLockAngle = DirectionTo(enextX - dx, enextY - dy);
+        double radarTurn = CalcRadarBearing(radarLockAngle);
+        TurnRadarLeft(radarTurn);
+    }
     public override void OnBotDeath(BotDeathEvent e)
     {
         enemies.Remove(e.VictimId);
@@ -182,8 +188,7 @@ public class Trishula : Bot
         double angleToEnemy = DirectionTo(e.X, e.Y);
         double gunTurn = CalcGunBearing(angleToEnemy);
         SetTurnGunLeft(gunTurn);
-        double radarTurn = CalcRadarBearing(angleToEnemy);
-        SetTurnRadarLeft(radarTurn);
+        SetTurnRadarLeft(gunTurn);
         if (GunHeat == 0)
         {
             SetFire(Energy < 3 ? Energy : 3);

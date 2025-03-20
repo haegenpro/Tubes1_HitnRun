@@ -118,6 +118,8 @@ public class WildBot : Bot
         double enemyYPredicted = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180) * timeToTarget;
         double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
         double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double thisnextX = X + Speed * Math.Cos(Direction * Math.PI / 180);
+        double thisnextY = Y + Speed * Math.Sin(Direction * Math.PI / 180);
         double predictedAngle = DirectionTo(enemyXPredicted, enemyYPredicted);
         double radarLockAngle = DirectionTo(nextX, nextY);
         double gunTurn = CalcGunBearing(predictedAngle);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5zBK8AIjxEM=",
+  "dgSpecHash": "ks1to7xdsx4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Trishula\\Trishula.csproj",
+  "projectFilePath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haege\\.nuget\\packages\\microsoft.build.locator\\1.7.8\\microsoft.build.locator.1.7.8.nupkg.sha512",
     "C:\\Users\\haege\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
