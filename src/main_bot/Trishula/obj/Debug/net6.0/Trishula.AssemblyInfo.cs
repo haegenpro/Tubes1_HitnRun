@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Trishula")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c386aae1f6161ba6eb6fc14089ba5d9499fed0e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1f1f0a4e9e065c15f18c0ea8c4885e1cdfc5598")]
 [assembly: System.Reflection.AssemblyProductAttribute("Trishula")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Trishula")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

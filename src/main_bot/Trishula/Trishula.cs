@@ -74,7 +74,6 @@ public class Trishula : Bot
             TargetSpeed = Math.Abs(angle) > 60 ? 0 : 8;
         }
     }
-
     private void AssessPoint(double distanceToTarget, RectangleD battlefield) {
         PointD test;
         int i = 0;
@@ -123,6 +122,53 @@ public class Trishula : Bot
         {
             target = en;
         }
+        double distance = DistanceTo(e.X, e.Y);
+        double firePower;
+        if (distance < 10)
+        {
+            firePower = 3;
+        }
+        else
+        {
+            if (Energy < 10)
+                firePower = 0.5;
+            else if (distance > 300)
+                firePower = 1;
+            else if (distance > 150)
+                firePower = 2;
+            else
+                firePower = 3;
+        }
+        double bulletSpeed = CalcBulletSpeed(firePower);
+        double timeToTarget = distance / bulletSpeed;
+        double enemyXPredicted = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180) * timeToTarget;
+        double enemyYPredicted = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180) * timeToTarget;
+        double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double predictedAngle = DirectionTo(enemyXPredicted, enemyYPredicted);
+        double radarLockAngle = DirectionTo(nextX, nextY);
+        double gunTurn = CalcGunBearing(predictedAngle);
+        if (gunTurn < 0)
+        {
+            SetTurnGunRight(-gunTurn);
+        }
+        else
+        {
+            SetTurnGunLeft(gunTurn);
+        }
+        if (GunHeat == 0 && Energy > 3)
+        {
+            SetFire(firePower);
+        }
+        double radarTurn = CalcRadarBearing(radarLockAngle);
+        if (radarTurn < 0)
+        {
+            SetTurnRadarRight(-radarTurn);
+        }
+        else
+        {
+            SetTurnRadarLeft(radarTurn);
+        }
     }
 
     public override void OnBotDeath(BotDeathEvent e)
@@ -130,8 +176,18 @@ public class Trishula : Bot
         enemies.Remove(e.VictimId);
     }
 
-    public override void OnHitBot(HitBotEvent botHitBotEvent)
+    public override void OnHitBot(HitBotEvent e)
     {
+        // If we hit another bot, turn the radar and gun, to continuously fire
+        double angleToEnemy = DirectionTo(e.X, e.Y);
+        double gunTurn = CalcGunBearing(angleToEnemy);
+        SetTurnGunLeft(gunTurn);
+        double radarTurn = CalcRadarBearing(angleToEnemy);
+        SetTurnRadarLeft(radarTurn);
+        if (GunHeat == 0)
+        {
+            SetFire(Energy < 3 ? Energy : 3);
+        }
         RectangleD battlefield = new RectangleD(18, 18, ArenaWidth - 36, ArenaHeight - 36);
         AssessPoint(double.MaxValue, battlefield);
     }

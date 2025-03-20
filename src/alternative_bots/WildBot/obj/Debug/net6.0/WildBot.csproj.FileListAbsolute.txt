@@ -1,4 +1,8 @@
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\WildBot.exe
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\WildBot.deps.json
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\WildBot.runtimeconfig.json
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\WildBot.dll
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\WildBot.pdb
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\Microsoft.Build.Locator.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -28,3 +32,5 @@ C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alter
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\refint\WildBot.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.pdb
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\WildBot.genruntimeconfig.cache
+C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\WildBot\obj\Debug\net6.0\ref\WildBot.dll

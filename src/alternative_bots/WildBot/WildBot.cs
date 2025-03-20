@@ -30,7 +30,11 @@ public class WildBot : Bot
         while (IsRunning)
         {
             SetForward(400);
-            SetTurnRight(90);
+            SetTurnRight(60);
+            SetForward(400);
+            SetTurnRight(60);
+            SetForward(400);
+            SetTurnRight(60);
             Go();
         }
     }
