@@ -122,9 +122,8 @@ public class Trishula : Bot
         {
             target = en;
         }
-        //AimAndFire(e);
-        LockRadar(e);
-        Move(battlefield);
+        AimAndFire(e);
+        SmartRadarLock(e);
     }
 
     private void AimAndFire(ScannedBotEvent e)
@@ -133,11 +132,9 @@ public class Trishula : Bot
         double firePower = (distance < 10) ? 3 : (Energy < 10) ? 0.5 : (distance > 300) ? 1 : (distance > 150) ? 2 : 3;
         double bulletSpeed = CalcBulletSpeed(firePower);
         
-        // Enemy velocity components
         double enemyVX = e.Speed * Math.Cos(e.Direction * Math.PI / 180);
         double enemyVY = e.Speed * Math.Sin(e.Direction * Math.PI / 180);
         
-        // Quadratic formula to solve for t
         double dx = e.X - X;
         double dy = e.Y - Y;
         double a = enemyVX * enemyVX + enemyVY * enemyVY - bulletSpeed * bulletSpeed;
@@ -167,15 +164,14 @@ public class Trishula : Bot
             SetFire(firePower);
         }
     }
-    private void LockRadar(ScannedBotEvent e)
+    private void SmartRadarLock(ScannedBotEvent e)
     {
-        double enextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
-        double enextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
-        double dy = Speed * Math.Cos(Direction * Math.PI / 180);
-        double dx = Speed * Math.Sin(Direction * Math.PI / 180);
-        double radarLockAngle = DirectionTo(enextX - dx, enextY - dy);
+        double enemyFutureX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double enemyFutureY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double radarLockAngle = DirectionTo(enemyFutureX, enemyFutureY);
         double radarTurn = CalcRadarBearing(radarLockAngle);
-        TurnRadarLeft(radarTurn);
+
+        SetTurnRadarLeft(radarTurn);
     }
     public override void OnBotDeath(BotDeathEvent e)
     {
