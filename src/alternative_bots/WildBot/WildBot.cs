@@ -33,13 +33,6 @@ public class WildBot : Bot
             TurnRadarLeft(360);
         }
     }
-
-    private bool IsNearWall()
-    {
-        int threshold = 30;
-        return (X < threshold || X > ArenaWidth - threshold ||
-                Y < threshold || Y > ArenaHeight - threshold);
-    }
     private void ReverseDirection()
     {
         if (movingForward)
@@ -53,36 +46,6 @@ public class WildBot : Bot
             movingForward = true;
         }
     }
-
-    /*private void SetDirection()
-    {
-        int num = random.Next(0, 4);
-        int targetX = 50, targetY = 50;
-        switch (num)
-        {
-            case 0:
-                targetX = 50;
-                targetY = ArenaHeight/2;
-                break;
-            case 1:
-                targetX = ArenaWidth/2;
-                targetY = 50;
-                break;
-            case 2:
-                targetX = ArenaWidth/2;
-                targetY = ArenaHeight - 50;
-                break;
-            case 3:
-                targetX = ArenaWidth - 50;
-                targetY = ArenaHeight/2;
-                break;
-        }
-        double angle = DirectionTo(targetX, targetY);
-        double turnangle = NormalizeAngle(angle - Direction);
-        TurnRight(turnangle);
-        movingForward = true;
-        SetForward(1000);
-    }*/
 
     public override void OnScannedBot(ScannedBotEvent e)
     {
@@ -101,7 +64,7 @@ public class WildBot : Bot
             Fire(firePower);
         }
         SetTurnLeft(Turn);
-        SetForward(Math.Min(distance / 2, 150));
+        SetForward(Math.Min(distance / 5, 50));
         Rescan();
     }
     private double AngleProjection(ScannedBotEvent e){
@@ -114,8 +77,6 @@ public class WildBot : Bot
         {
             if (Energy < 10 || distance > 500)
                 firePower = 1;
-            else if (distance > 200)
-                firePower = 2;
             else
                 firePower = 3;
         }
@@ -145,10 +106,8 @@ public class WildBot : Bot
         double enemyYPredicted = e.Y + enemyVY * t;
         return DirectionTo(enemyXPredicted, enemyYPredicted);
     }
-
     public override void OnHitBot(HitBotEvent e)
     {
-        // If we hit another bot, turn the radar and gun, to continuously fire
         double angleToEnemy = DirectionTo(e.X, e.Y);
         double gunTurn = CalcGunBearing(angleToEnemy);
         double radarTurn = CalcRadarBearing(angleToEnemy);
@@ -158,28 +117,10 @@ public class WildBot : Bot
         {
             Fire(Energy < 3 ? Energy : 3);
         }
-        Forward(50);
+        SetForward(10);
     }
-
-    // When hitting a wall, reverse direction to avoid damage
     public override void OnHitWall(HitWallEvent e)
     {
         ReverseDirection();
     }
 }
-/*
-public class NearWallCondition : Condition
-{
-    private readonly WildBot bot;
-
-    public NearWallCondition(WildBot bot)
-    {
-        this.bot = bot;
-    }
-    public override bool Test()
-    {
-        int threshold = 30;
-        return (bot.X < threshold || bot.X > bot.ArenaWidth - threshold ||
-                bot.Y < threshold || bot.Y > bot.ArenaHeight - threshold);
-    }
-}*/
