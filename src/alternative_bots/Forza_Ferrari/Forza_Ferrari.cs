@@ -3,29 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using Robocode.TankRoyale.BotApi;
 using Robocode.TankRoyale.BotApi.Events;
-
 public class Forza_Ferrari : Bot
 {   
     bool movingForward;
-    bool evaluationMode = true;
     double firePower = 3;
-    List<Enemy> enemies;
+    Dictionary<int, Enemy> enemies;
     Enemy target;
-    public class Enemy
-    {
-        public bool active;
-        public int id;
-        public double ex, ey, energy, speed, direction;
-        public Enemy(int id, double ex, double ey, double energy, double speed, double direction) {
-            active = true;
-            this.id = id;
-            this.ex = ex;
-            this.ey = ey;
-            this.energy = energy;
-            this.speed = speed;
-            this.direction = direction;
-        }
-    }
+    enum BotMode {Scanning, Evaluating, Targeting}
+    BotMode mode = BotMode.Scanning;
     static void Main()
     {
         new Forza_Ferrari().Start();
@@ -38,36 +23,46 @@ public class Forza_Ferrari : Bot
         RadarColor = Color.FromArgb(255, 88, 79);
         BulletColor = Color.FromArgb(255, 17, 0);
         ScanColor = Color.FromArgb(181, 40, 48);
-        TracksColor = Color.FromArgb(256, 242, 0);
+        TracksColor = Color.FromArgb(255, 242, 0);
         GunColor = Color.FromArgb(230, 230, 230);
 
-        enemies = new List<Enemy>();
+        enemies = new Dictionary<int, Enemy>();
         target = null;
         while (IsRunning)
         {
-            if (!evaluationMode){
-                evaluationMode = true;
-                SetTurnRadarLeft(360);
-                Evaluate();
-            }
-            else
+            switch (mode)
             {
-                SetTurnRadarLeft(360);
+                case BotMode.Scanning:
+                    SetTurnRadarLeft(360);
+                    WaitFor(new RadarCompleteCondition(this));
+                    mode = BotMode.Evaluating;
+                    break;
+                case BotMode.Evaluating:
+                    Evaluate();
+                    if (target != null)
+                    {
+                        mode = BotMode.Targeting;
+                    }
+                    break;
+                case BotMode.Targeting:
+                    SetTurnRadarLeft(360);
+                    break;
             }
+            WaitFor(new TurnCompleteCondition(this));
         }
     }
     private void Evaluate()
     {
         Enemy bestCandidate = null;
         double maxAvgDistance = double.MinValue;
-        foreach (var candidate in enemies)
+        foreach (var candidate in enemies.Values)
         {
             if (!candidate.active) continue;
             double totalDistance = 0;
             int count = 0;
-            foreach (var other in enemies)
+            foreach (var other in enemies.Values)
             {
-                if (other.id == candidate.id || !other.active) continue;
+                if (other == candidate || !other.active) continue;
                 double dx = candidate.ex - other.ex;
                 double dy = candidate.ey - other.ey;
                 totalDistance += Math.Sqrt(dx * dx + dy * dy);
@@ -124,13 +119,20 @@ public class Forza_Ferrari : Bot
     }
     public override void OnScannedBot(ScannedBotEvent e)
     {
-        if (evaluationMode)
+        if (mode == BotMode.Scanning)
         {
-            enemies[e.ScannedBotId] = new Enemy(e.ScannedBotId, e.X, e.Y, e.Energy, e.Speed, e.Direction);
+            if (!enemies.ContainsKey(e.ScannedBotId))
+            {
+                enemies[e.ScannedBotId] = new Enemy(e.ScannedBotId, e.X, e.Y, e.Energy, e.Speed, e.Direction);
+            }
+            else
+            {
+                enemies[e.ScannedBotId].Update(e.X, e.Y, e.Energy, e.Speed, e.Direction);
+            }
         }
-        else
+        else if (mode == BotMode.Targeting)
         {
-            if (e.ScannedBotId == target.id)
+            if (target != null && e.ScannedBotId == target.id)
             {
                 double distance = DistanceTo(e.X, e.Y);
                 double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
@@ -139,19 +141,20 @@ public class Forza_Ferrari : Bot
                 double radarTurn = CalcRadarBearing(radarLockAngle);
                 double predictedAngle = AngleProjection(e);
                 double gunTurn = CalcGunBearing(predictedAngle);
-                double Turn = CalcBearing(radarLockAngle);
+                double turn = CalcBearing(radarLockAngle);
                 SetTurnRadarLeft(radarTurn);
                 SetTurnGunLeft(gunTurn);
                 if (GunHeat == 0)
                 {
                     SetFire(firePower);
                 }
-                SetTurnLeft(Turn);
+                SetTurnLeft(turn);
                 SetForward(Math.Min(distance / 4, 30));
                 Rescan();
             }
         }
     }
+
     public override void OnHitBot(HitBotEvent e)
     {
         double angleToEnemy = DirectionTo(e.X, e.Y);
@@ -182,22 +185,63 @@ public class Forza_Ferrari : Bot
     }
     public override void OnBotDeath(BotDeathEvent e)
     {
-        if (e.VictimId == target.id)
+        if (enemies.ContainsKey(e.VictimId))
         {
-            target.active = false;
+            enemies[e.VictimId].active = false;
+        }
+
+        if (target != null && e.VictimId == target.id)
+        {
             target = null;
-            evaluationMode = true;
+            mode = BotMode.Scanning;
         }
-        else
+    }
+    public class Enemy
+    {
+        public bool active;
+        public int id;
+        public double ex, ey, energy, speed, direction;
+        public Enemy(int id, double ex, double ey, double energy, double speed, double direction) {
+            active = true;
+            this.id = id;
+            this.ex = ex;
+            this.ey = ey;
+            this.energy = energy;
+            this.speed = speed;
+            this.direction = direction;
+        }
+        public void Update(double ex, double ey, double energy, double speed, double direction)
         {
-            foreach (var enemy in enemies)
-            {
-                if (enemy.id == e.VictimId)
-                {
-                    enemy.active = false;
-                    break;
-                }
-            }
+            this.ex = ex;
+            this.ey = ey;
+            this.energy = energy;
+            this.speed = speed;
+            this.direction = direction;
         }
+    }
+}
+
+public class RadarCompleteCondition : Condition
+{
+    private readonly Bot bot;
+    public RadarCompleteCondition(Bot bot)
+    {
+        this.bot = bot;
+    }
+    public override bool Test()
+    {
+        return bot.RadarTurnRemaining == 0;
+    }
+}
+public class TurnCompleteCondition : Condition
+{
+    private readonly Bot bot;
+    public TurnCompleteCondition(Bot bot)
+    {
+        this.bot = bot;
+    }
+    public override bool Test()
+    {
+        return bot.TurnRemaining == 0;
     }
 }
