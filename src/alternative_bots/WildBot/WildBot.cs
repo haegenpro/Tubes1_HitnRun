@@ -61,7 +61,7 @@ public class WildBot : Bot
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
-            Fire(firePower);
+            SetFire(firePower);
         }
         SetTurnLeft(Turn);
         SetForward(Math.Min(distance / 5, 50));
@@ -115,7 +115,7 @@ public class WildBot : Bot
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
-            Fire(Energy < 3 ? Energy : 3);
+            SetFire(Energy < 3 ? Energy : 3);
         }
         SetForward(10);
     }
