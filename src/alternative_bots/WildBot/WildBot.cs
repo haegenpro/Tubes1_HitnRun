@@ -8,6 +8,8 @@ public class WildBot : Bot
 {
     bool movingForward;
     private static Random random = new Random();
+
+    double firePower = 3;
     static void Main()
     {
         new WildBot().Start();
@@ -23,30 +25,14 @@ public class WildBot : Bot
 
         RadarTurnRate = 20;
         GunTurnRate = 20;
-        SetTurnGunRight(Double.PositiveInfinity);
-        SetTurnRadarRight(Double.PositiveInfinity);
-        //AddCustomEvent(new NearWallCondition(this));
+        SetTurnGunLeft(Double.PositiveInfinity);
+        SetTurnRadarLeft(Double.PositiveInfinity);
         
         while (IsRunning)
         {
-            SetForward(400);
-            SetTurnRight(60);
-            SetForward(400);
-            SetTurnRight(60);
-            SetForward(400);
-            SetTurnRight(60);
-            Go();
+            TurnRadarLeft(360);
         }
     }
-
-    private bool IsNearWall()
-    {
-        int threshold = 30;
-        return (X < threshold || X > ArenaWidth - threshold ||
-                Y < threshold || Y > ArenaHeight - threshold);
-    }
-
-    // Reverses the bot's movement direction to avoid walls
     private void ReverseDirection()
     {
         if (movingForward)
@@ -61,131 +47,80 @@ public class WildBot : Bot
         }
     }
 
-    /*private void SetDirection()
-    {
-        int num = random.Next(0, 4);
-        int targetX = 50, targetY = 50;
-        switch (num)
-        {
-            case 0:
-                targetX = 50;
-                targetY = ArenaHeight/2;
-                break;
-            case 1:
-                targetX = ArenaWidth/2;
-                targetY = 50;
-                break;
-            case 2:
-                targetX = ArenaWidth/2;
-                targetY = ArenaHeight - 50;
-                break;
-            case 3:
-                targetX = ArenaWidth - 50;
-                targetY = ArenaHeight/2;
-                break;
-        }
-        double angle = DirectionTo(targetX, targetY);
-        double turnangle = NormalizeAngle(angle - Direction);
-        TurnRight(turnangle);
-        movingForward = true;
-        SetForward(1000);
-    }*/
-
     public override void OnScannedBot(ScannedBotEvent e)
     {
-        // Calculate the current distance to the enemy.
         double distance = DistanceTo(e.X, e.Y);
-        
-        double firePower;
+        double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double radarLockAngle = DirectionTo(nextX, nextY);
+        double radarTurn = CalcRadarBearing(radarLockAngle);
+        double predictedAngle = AngleProjection(e);
+        double gunTurn = CalcGunBearing(predictedAngle);
+        double Turn = CalcBearing(radarLockAngle);
+        SetTurnRadarLeft(radarTurn);
+        SetTurnGunLeft(gunTurn);
+        if (GunHeat == 0)
+        {
+            SetFire(firePower);
+        }
+        SetTurnLeft(Turn);
+        SetForward(Math.Min(distance / 5, 50));
+        Rescan();
+    }
+    private double AngleProjection(ScannedBotEvent e){
+        double distance = DistanceTo(e.X, e.Y);
         if (distance < 10)
         {
-            firePower = 3;
+            firePower = (Energy > 3) ? 3 : Energy;
         }
         else
         {
-            if (Energy < 10)
-                firePower = 0.5;
-            else if (distance > 300)
+            if (Energy < 10 || distance > 500)
                 firePower = 1;
-            else if (distance > 150)
-                firePower = 2;
             else
                 firePower = 3;
         }
         double bulletSpeed = CalcBulletSpeed(firePower);
-        double timeToTarget = distance / bulletSpeed;
-        double enemyXPredicted = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180) * timeToTarget;
-        double enemyYPredicted = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180) * timeToTarget;
-        double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
-        double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
-        double predictedAngle = DirectionTo(enemyXPredicted, enemyYPredicted);
-        double radarLockAngle = DirectionTo(nextX, nextY);
-        double gunTurn = CalcGunBearing(predictedAngle);
-        if (gunTurn < 0)
-        {
-            TurnGunRight(-gunTurn);
-        }
-        else
-        {
-            TurnGunLeft(gunTurn);
-        }
-        if (GunHeat == 0 && Energy > 3)
-        {
-            Fire(firePower);
-        }
-        double radarTurn = CalcRadarBearing(radarLockAngle);
-        if (radarTurn < 0)
-        {
-            TurnRadarRight(-radarTurn);
-        }
-        else
-        {
-            TurnRadarLeft(radarTurn);
-        }
-    }
+        double enemyVX = e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double enemyVY = e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        
+        double dx = e.X - X;
+        double dy = e.Y - Y;
+        double a = enemyVX * enemyVX + enemyVY * enemyVY - bulletSpeed * bulletSpeed;
+        double b = 2 * (dx * enemyVX + dy * enemyVY);
+        double c = dx * dx + dy * dy;
+        double discriminant = b * b - 4 * a * c;
 
+        double t = 0;
+        if (a != 0 && discriminant >= 0)
+        {
+            double t1 = (-b + Math.Sqrt(discriminant)) / (2 * a);
+            double t2 = (-b - Math.Sqrt(discriminant)) / (2 * a);
+            t = (t1 > 0) ? t1 : (t2 > 0) ? t2 : 0;
+        }
+        else
+        {
+            t = distance / bulletSpeed;
+        }
+        double enemyXPredicted = e.X + enemyVX * t;
+        double enemyYPredicted = e.Y + enemyVY * t;
+        return DirectionTo(enemyXPredicted, enemyYPredicted);
+    }
     public override void OnHitBot(HitBotEvent e)
     {
-        // If we hit another bot, turn the radar and gun, to continuously fire
         double angleToEnemy = DirectionTo(e.X, e.Y);
         double gunTurn = CalcGunBearing(angleToEnemy);
-        TurnGunLeft(gunTurn);
         double radarTurn = CalcRadarBearing(angleToEnemy);
-        TurnRadarLeft(radarTurn);
+        SetTurnRadarLeft(radarTurn);
+        SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
-            Fire(Energy < 3 ? Energy : 3);
+            SetFire(Energy < 3 ? Energy : 3);
         }
-        Forward(50);
+        SetForward(10);
     }
-    /*public override void OnCustomEvent(CustomEvent e)
-    {
-        if (e.Condition is NearWallCondition)
-        {
-            ReverseDirection();
-        }
-    }
-*/
-
-    // When hitting a wall, reverse direction to avoid damage
     public override void OnHitWall(HitWallEvent e)
     {
         ReverseDirection();
     }
 }
-/*
-public class NearWallCondition : Condition
-{
-    private readonly WildBot bot;
-
-    public NearWallCondition(WildBot bot)
-    {
-        this.bot = bot;
-    }
-    public override bool Test()
-    {
-        int threshold = 30;
-        return (bot.X < threshold || bot.X > bot.ArenaWidth - threshold ||
-                bot.Y < threshold || bot.Y > bot.ArenaHeight - threshold);
-    }
-}*/

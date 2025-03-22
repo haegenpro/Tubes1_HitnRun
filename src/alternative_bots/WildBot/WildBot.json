@@ -2,7 +2,7 @@
     "name": "WildBot",
     "version": "1.0",
     "authors": [ "Daniel Pedrosa", "Haegen Quinston", "Steven Owen"],
-    "description": "WildBot implements a greedy algorithm by firing 0.5 bullets using a linear projection of the enemy position, maximizing the number of bullets fired.",
+    "description": "WildBot fires 1/3 bullets based off the enemy distance and energy. Aiming for this bot uses a linear projection of the enemy position based off bullet speed.",
     "homepage": "",
     "countryCodes": [ "id" ],
     "platform": ".Net 6.0",
