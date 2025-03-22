@@ -4,16 +4,15 @@ using System.Drawing;
 using Robocode.TankRoyale.BotApi;
 using Robocode.TankRoyale.BotApi.Events;
 
-public class ForzaFerrariBot : Bot
+public class Forza_Ferrari : Bot
 {   
-    private bool movingForward;
-    private bool evaluationMode = true;
-
-    private List<Enemy> enemies;
-
-    private Enemy target;
-
-    public class Enemy {
+    bool movingForward;
+    bool evaluationMode = true;
+    double firePower = 3;
+    List<Enemy> enemies;
+    Enemy target;
+    public class Enemy
+    {
         public bool active;
         public int id;
         public double ex, ey, energy, speed, direction;
@@ -27,14 +26,13 @@ public class ForzaFerrariBot : Bot
             this.direction = direction;
         }
     }
-    static void Main(string[] args)
+    static void Main()
     {
-        new ForzaFerrariBot().Start();
+        new Forza_Ferrari().Start();
     }
-    ForzaFerrariBot() : base(BotInfo.FromFile("ForzaFerrariBot.json")) { }
+    Forza_Ferrari() : base(BotInfo.FromFile("Forza_Ferrari.json")) { }
     public override void Run()
     {
-
         BodyColor = Color.FromArgb(202, 0, 42);
         TurretColor = Color.FromArgb(216, 31, 42);
         RadarColor = Color.FromArgb(255, 88, 79);
@@ -45,23 +43,47 @@ public class ForzaFerrariBot : Bot
 
         enemies = new List<Enemy>();
         target = null;
-
         while (IsRunning)
         {
-            if (target = null){
+            if (!evaluationMode){
                 evaluationMode = true;
                 SetTurnRadarLeft(360);
                 Evaluate();
             }
             else
             {
-                evaluationMode = false;
                 SetTurnRadarLeft(360);
             }
         }
     }
-    private void Evaluate(){
-
+    private void Evaluate()
+    {
+        Enemy bestCandidate = null;
+        double maxAvgDistance = double.MinValue;
+        foreach (var candidate in enemies)
+        {
+            if (!candidate.active) continue;
+            double totalDistance = 0;
+            int count = 0;
+            foreach (var other in enemies)
+            {
+                if (other.id == candidate.id || !other.active) continue;
+                double dx = candidate.ex - other.ex;
+                double dy = candidate.ey - other.ey;
+                totalDistance += Math.Sqrt(dx * dx + dy * dy);
+                count++;
+            }
+            double avgDistance = (count > 0) ? totalDistance / count : double.MaxValue;
+            if (avgDistance > maxAvgDistance)
+            {
+                maxAvgDistance = avgDistance;
+                bestCandidate = candidate;
+            }
+        }
+        if (bestCandidate != null)
+        {
+            target = bestCandidate;
+        }
     }
     private double AngleProjection(ScannedBotEvent e){
         double distance = DistanceTo(e.X, e.Y);
@@ -104,11 +126,11 @@ public class ForzaFerrariBot : Bot
     {
         if (evaluationMode)
         {
-            enemies.Add(new Enemy(e.BotId, e.X, e.Y, e.Energy, e.Speed, e.Direction));
+            enemies[e.ScannedBotId] = new Enemy(e.ScannedBotId, e.X, e.Y, e.Energy, e.Speed, e.Direction);
         }
         else
         {
-            if (e.BotId == target.id)
+            if (e.ScannedBotId == target.id)
             {
                 double distance = DistanceTo(e.X, e.Y);
                 double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
@@ -135,12 +157,14 @@ public class ForzaFerrariBot : Bot
         double angleToEnemy = DirectionTo(e.X, e.Y);
         double gunTurn = CalcGunBearing(angleToEnemy);
         double radarTurn = CalcRadarBearing(angleToEnemy);
+        double turn = CalcBearing(angleToEnemy);
         SetTurnRadarLeft(radarTurn);
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
             SetFire(Energy < 3 ? Energy : 3);
         }
+        SetTurnLeft(turn);
         SetForward(10);
     }
     public override void OnHitWall(HitWallEvent e)
@@ -154,6 +178,26 @@ public class ForzaFerrariBot : Bot
         {
             Forward(300);
             movingForward = true;
+        }
+    }
+    public override void OnBotDeath(BotDeathEvent e)
+    {
+        if (e.VictimId == target.id)
+        {
+            target.active = false;
+            target = null;
+            evaluationMode = true;
+        }
+        else
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.id == e.VictimId)
+                {
+                    enemy.active = false;
+                    break;
+                }
+            }
         }
     }
 }

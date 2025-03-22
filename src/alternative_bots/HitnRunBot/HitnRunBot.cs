@@ -7,7 +7,6 @@ using Robocode.TankRoyale.BotApi.Events;
 public class HitnRunBot : Bot
 {
     bool movingForward;
-
     double firePower = 3;
     static void Main()
     {
@@ -112,12 +111,14 @@ public class HitnRunBot : Bot
         double angleToEnemy = DirectionTo(e.X, e.Y);
         double gunTurn = CalcGunBearing(angleToEnemy);
         double radarTurn = CalcRadarBearing(angleToEnemy);
+        double Turn = CalcBearing(angleToEnemy);
         SetTurnRadarLeft(radarTurn);
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
             SetFire(Energy < 3 ? Energy : 3);
         }
+        SetTurnLeft(Turn);
         SetForward(10);
     }
     public override void OnHitWall(HitWallEvent e)
