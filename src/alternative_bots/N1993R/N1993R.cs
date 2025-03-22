@@ -11,9 +11,14 @@ public class N1993R : Bot
     public bool Hostile = false;
     public string currentWall;
 
+    public double firePower = 3;
+
+    private long lastScannedTime = 0;
+    private const long scanTimeout = 8;
+
     public static readonly Random rnd = new Random();
 
-    static void Main(string[] args)
+    static void Main()
     {
         new N1993R().Start();
     }
@@ -31,12 +36,11 @@ public class N1993R : Bot
         ScanColor = System.Drawing.Color.Black;
 
         isAligning = false;
+        lastScannedTime = Environment.TickCount;
+        SetTurnRadarLeft(360);
 
-        TurnRadarLeft(360);
-        while (true)
+        while (IsRunning)
         {
-            SetTurnRadarLeft(720);
-
             if (!isAligning)
             {
                 AlignWithWall();
@@ -44,11 +48,15 @@ public class N1993R : Bot
             MoveAlongWall();
             Go();
         }
+
     }
 
     public void AlignWithWall()
     {
-        SetTurnRadarLeft(360);
+        if (Environment.TickCount - lastScannedTime > scanTimeout)
+        {
+            SetTurnRadarLeft(360);
+        }
         // Mencari jarak terdekat ke dinding
         double distanceToLeftWall = X;
         double distanceToRightWall = ArenaWidth - X;
@@ -66,8 +74,6 @@ public class N1993R : Bot
 
         var minEntry = distances.Aggregate((l, r) => l.Value < r.Value ? l : r);
         currentWall = minEntry.Key;
-
-        Console.WriteLine("Tembok terdekat: " + minEntry.Key);
 
         // Mencari arah BOT sekarang
         double currentHeading = Direction;
@@ -183,7 +189,10 @@ public class N1993R : Bot
 
     public void MoveAlongWall()
     {
-        SetTurnRadarLeft(360);
+        if (Environment.TickCount - lastScannedTime > scanTimeout)
+        {
+            SetTurnRadarLeft(360);
+        }
         double alignHeading = Direction;
 
         // Kasus DINDING KANAN ATAU KIRI
@@ -203,31 +212,34 @@ public class N1993R : Bot
                 // JIKA UP TIDAK MEPET
                 if (distanceToTopWall > SafeDistance)
                 {
-                    if (alignHeading != 90)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToTopWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
 
+                    if (alignHeading != 90)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
 
                 }
 
                 // JIKA UP MEPET
                 else
                 {
-                    if (alignHeading == 90)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToBottomWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
 
-
+                    if (alignHeading == 90)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
                 }
             }
 
@@ -238,28 +250,32 @@ public class N1993R : Bot
                 // Jika DOWN TIDAK MEPET
                 if (distanceToBottomWall > SafeDistance)
                 {
-                    if (alignHeading != 270)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToBottomWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
-
+                    if (alignHeading != 270)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
                 }
 
                 // Jika DOWN MEPET
                 else
                 {
-                    if (alignHeading == 270)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToTopWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
+
+                    if (alignHeading == 270)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
                 }
             }
         }
@@ -282,28 +298,33 @@ public class N1993R : Bot
                 // JIKA LEFT TIDAK MEPET
                 if (distanceToLeftWall > SafeDistance)
                 {
-                    if (alignHeading != 180)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToLeftWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
+                    if (alignHeading != 180)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+
+                        Forward(move);
+                    }
 
                 }
 
                 // JIKA LEFT MEPET
                 else
                 {
-                    if (alignHeading == 180)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToRightWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
+                    if (alignHeading == 180)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
 
                 }
             }
@@ -314,15 +335,17 @@ public class N1993R : Bot
                 // JIKA RIGHT TIDAK MEPET
                 if (distanceToRightWall > SafeDistance)
                 {
-                    if (alignHeading != 0)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToRightWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
+                    if (alignHeading != 0)
+                    {
+                        Forward(-move);
+                    }
 
+                    else
+                    {
+                        Forward(move);
+                    }
 
 
                 }
@@ -330,14 +353,16 @@ public class N1993R : Bot
                 // JIKA RIGHT MEPET
                 else
                 {
-                    if (alignHeading == 0)
-                    {
-                        TurnRight(180);
-                    }
-
                     double deltaDistance = distanceToLeftWall - SafeDistance;
                     double move = rnd.Next(35, (int)deltaDistance);
-                    Forward(move);
+                    if (alignHeading == 0)
+                    {
+                        Forward(-move);
+                    }
+                    else
+                    {
+                        Forward(move);
+                    }
                 }
             }
         }
@@ -346,33 +371,26 @@ public class N1993R : Bot
 
     public override void OnScannedBot(ScannedBotEvent e)
     {
-
-        double get_radar_angle = RadarBearingTo(e.X, e.Y);
-        double get_gun_angle = GunBearingTo(e.X, e.Y);
-        double get_body_angle = BearingTo(e.X, e.Y);
+        lastScannedTime = Environment.TickCount;
         double distance = DistanceTo(e.X, e.Y);
+        double nextX = e.X + e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double nextY = e.Y + e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+        double radarLockAngle = DirectionTo(nextX, nextY);
+        double radarTurn = CalcRadarBearing(radarLockAngle);
+        double predictedAngle = AngleProjection(e);
+        double gunTurn = CalcGunBearing(predictedAngle);
+        double Turn = BearingTo(e.X, e.Y);
+        SetTurnRadarLeft(radarTurn);
+        SetTurnGunLeft(gunTurn);
 
-
-        SetTurnRadarLeft(get_radar_angle);
-        SetTurnGunLeft(get_gun_angle);
-
-
-        if (distance <= 5)
+        if (gunTurn < 5)
         {
-
-            SetFire(4);
-
+            SetFire(firePower);
         }
-        else if (distance <= 50)
+
+
+        if (distance > 200)
         {
-
-            SetFire(3);
-
-        }
-        else if (distance <= 200 && Energy >= 10)
-        {
-
-            SetFire(1.7);
 
             if (Hostile)
             {
@@ -381,27 +399,64 @@ public class N1993R : Bot
             Hostile = false;
         }
 
-        else
+
+        if (distance <= 200)
         {
-
-            SetFire(0.7);
-
-            if (Hostile)
-            {
-                isAligning = false;
-            }
-            Hostile = false;
-
-        }
-
-        if (distance <= 150)
-        {
-            SetTurnLeft(get_body_angle);
+            SetTurnLeft(Turn);
             SetForward(Math.Min(distance / 2, 150));
             Hostile = true;
         }
         Rescan();
+        ClearEvents();
+    }
 
+    public double AngleProjection(ScannedBotEvent e)
+    {
+        double distance = DistanceTo(e.X, e.Y);
+        if (distance < 10)
+        {
+            firePower = (Energy > 3) ? 3 : Energy;
+        }
+        else
+        {
+            if (Energy < 10 || distance > 200)
+                firePower = 1;
+            else if (distance > 150)
+                firePower = 2;
+            else
+                firePower = 3;
+        }
+        double bulletSpeed = CalcBulletSpeed(firePower);
+        double enemyVX = e.Speed * Math.Cos(e.Direction * Math.PI / 180);
+        double enemyVY = e.Speed * Math.Sin(e.Direction * Math.PI / 180);
+
+        double dx = e.X - X;
+        double dy = e.Y - Y;
+        double a = enemyVX * enemyVX + enemyVY * enemyVY - bulletSpeed * bulletSpeed;
+        double b = 2 * (dx * enemyVX + dy * enemyVY);
+        double c = dx * dx + dy * dy;
+        double discriminant = b * b - 4 * a * c;
+
+        double t = 0;
+        if (a != 0 && discriminant >= 0)
+        {
+            double t1 = (-b + Math.Sqrt(discriminant)) / (2 * a);
+            double t2 = (-b - Math.Sqrt(discriminant)) / (2 * a);
+            t = (t1 > 0) ? t1 : (t2 > 0) ? t2 : 0;
+        }
+        else
+        {
+            t = distance / bulletSpeed;
+        }
+        double enemyXPredicted = e.X + enemyVX * t;
+        double enemyYPredicted = e.Y + enemyVY * t;
+        return DirectionTo(enemyXPredicted, enemyYPredicted);
+    }
+
+
+    public override void OnHitWall(HitWallEvent e)
+    {
+        isAligning = false;
     }
 
     public override void OnHitBot(HitBotEvent e)
@@ -413,7 +468,7 @@ public class N1993R : Bot
 
         SetFire(3);
 
-        SetForward(50);
+        Forward(50);
     }
 
 }
