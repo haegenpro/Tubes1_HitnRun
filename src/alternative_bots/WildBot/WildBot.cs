@@ -7,7 +7,6 @@ using Robocode.TankRoyale.BotApi.Events;
 public class WildBot : Bot
 {
     bool movingForward;
-    private static Random random = new Random();
 
     double firePower = 3;
     static void Main()
@@ -15,13 +14,15 @@ public class WildBot : Bot
         new WildBot().Start();
     }
     WildBot() : base(BotInfo.FromFile("WildBot.json")) { }
-        public override void Run()
+    public override void Run()
     {
-        BodyColor = Color.Green;
-        TurretColor = Color.DarkGreen;
-        RadarColor = Color.DarkRed;
-        BulletColor = Color.Yellow;
-        ScanColor = Color.LightYellow;
+        BodyColor = Color.FromArgb(176, 102, 96);
+        TurretColor = Color.FromArgb(217, 168, 143);
+        RadarColor = Color.FromArgb(234, 195, 184);
+        BulletColor = Color.FromArgb(210, 190, 150);
+        ScanColor = Color.FromArgb(219, 173, 114);
+        TracksColor = Color.FromArgb(171, 156, 115);
+        GunColor = Color.FromArgb(230, 230, 230);
 
         RadarTurnRate = 20;
         GunTurnRate = 20;
@@ -61,7 +62,7 @@ public class WildBot : Bot
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
-            Fire(firePower);
+            SetFire(firePower);
         }
         SetTurnLeft(Turn);
         SetForward(Math.Min(distance / 5, 50));
@@ -115,7 +116,7 @@ public class WildBot : Bot
         SetTurnGunLeft(gunTurn);
         if (GunHeat == 0)
         {
-            Fire(Energy < 3 ? Energy : 3);
+            SetFire(Energy < 3 ? Energy : 3);
         }
         SetForward(10);
     }
