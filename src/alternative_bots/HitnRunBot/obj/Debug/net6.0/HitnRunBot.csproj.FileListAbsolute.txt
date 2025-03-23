@@ -1,8 +1,4 @@
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\HitnRunBot.exe
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\HitnRunBot.deps.json
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\HitnRunBot.runtimeconfig.json
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\HitnRunBot.dll
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\HitnRunBot.pdb
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\Microsoft.Build.Locator.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -32,5 +28,3 @@ C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alter
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\obj\Debug\net6.0\HitnRunBot.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\obj\Debug\net6.0\refint\HitnRunBot.dll
 C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\obj\Debug\net6.0\HitnRunBot.pdb
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\obj\Debug\net6.0\HitnRunBot.genruntimeconfig.cache
-C:\Users\haege\OneDrive\Documents\vscode\ITB\Semester 4\Tubes1_HitnRun\src\alternative_bots\HitnRunBot\obj\Debug\net6.0\ref\HitnRunBot.dll

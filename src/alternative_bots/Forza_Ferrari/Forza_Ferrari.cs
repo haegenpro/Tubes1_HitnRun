@@ -89,8 +89,10 @@ public class Forza_Ferrari : Bot
         }
         else
         {
-            if (Energy < 10 || distance > 500)
+            if (Energy < 10 || distance > 250)
                 firePower = 1;
+            else if (distance > 150)
+                firePower = 2;
             else
                 firePower = 3;
         }
@@ -145,7 +147,7 @@ public class Forza_Ferrari : Bot
                 double turn = CalcBearing(radarLockAngle);
                 SetTurnRadarLeft(radarTurn);
                 SetTurnGunLeft(gunTurn);
-                if (GunHeat == 0)
+                if (gunTurn < 10)
                 {
                     SetFire(firePower);
                 }

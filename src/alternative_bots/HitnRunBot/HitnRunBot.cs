@@ -59,7 +59,7 @@ public class HitnRunBot : Bot
         double Turn = CalcBearing(radarLockAngle);
         SetTurnRadarLeft(radarTurn);
         SetTurnGunLeft(gunTurn);
-        if (GunHeat == 0)
+        if (gunTurn < 10)
         {
             SetFire(firePower);
         }
@@ -75,8 +75,10 @@ public class HitnRunBot : Bot
         }
         else
         {
-            if (Energy < 10 || distance > 500)
+            if (Energy < 10 || distance > 200)
                 firePower = 1;
+            else if (distance > 150)
+                firePower = 2;
             else
                 firePower = 3;
         }
@@ -114,10 +116,7 @@ public class HitnRunBot : Bot
         double Turn = CalcBearing(angleToEnemy);
         SetTurnRadarLeft(radarTurn);
         SetTurnGunLeft(gunTurn);
-        if (GunHeat == 0)
-        {
-            SetFire(Energy < 3 ? Energy : 3);
-        }
+        SetFire(Energy < 3 ? Energy : 3);
         SetTurnLeft(Turn);
         SetForward(10);
     }
