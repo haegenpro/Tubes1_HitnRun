@@ -28,6 +28,7 @@ public class Forza_Ferrari : Bot
 
         enemies = new Dictionary<int, Enemy>();
         target = null;
+        mode = BotMode.Scanning;
         while (IsRunning)
         {
             switch (mode)
@@ -46,9 +47,6 @@ public class Forza_Ferrari : Bot
                     break;
                 case BotMode.Targeting:
                     SetTurnRadarLeft(360);
-                    break;
-                default:
-                    mode = BotMode.Scanning;
                     break;
             }
             WaitFor(new TurnCompleteCondition(this));
