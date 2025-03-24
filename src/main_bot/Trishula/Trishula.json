@@ -1,7 +1,7 @@
 {
     "name": "Trishula",
     "version": "1.0",
-    "authors": ["Daniel Pedrosa Wu, Haegen Quinston", "Steven Owen Liauw"],
+    "authors": ["Daniel Pedrosa Wu", "Haegen Quinston", "Steven Owen Liauw"],
     "description": "A bot that try to move to the least risky spot",
     "homepage": "",
     "countryCodes": ["id"],

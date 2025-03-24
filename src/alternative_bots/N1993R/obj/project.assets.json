@@ -926,19 +926,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
+    "C:\\Users\\haege\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
+      "projectUniqueName": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
       "projectName": "N1993R",
-      "projectPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
-      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\obj\\",
+      "projectPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
+      "packagesPath": "C:\\Users\\haege\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\haege\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

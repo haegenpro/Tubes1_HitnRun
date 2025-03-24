@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HitnRunBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07d4293c1255097c4f34f7ad4dc95d03fb2436e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30d51284d7a106326adde59a6370ffd9ea3d2bda")]
 [assembly: System.Reflection.AssemblyProductAttribute("HitnRunBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HitnRunBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
