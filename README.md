@@ -46,6 +46,7 @@ This repository contains multiple bots developed for the Robocode game using C#.
 
 3. Run the Program:
    - Ensure that the bot configuration files (e.g., "Trishula.json", "Forza_Ferrari.json") are available in the repository directory as required.
+   - Ensure that the .NET version on .json and .csproj file are compatible to your version.
    - Using the command line, run the .jar file using this command:
    ```bash
    java -jar robocode-tankroyale-gui-0.30.0.jar
