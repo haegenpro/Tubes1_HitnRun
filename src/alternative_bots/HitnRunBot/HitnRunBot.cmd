@@ -3,7 +3,7 @@ REM TemplateBot.cmd - Run the bot in development or release mode
 REM Set MODE=dev for development (default, always rebuilds)
 REM Set MODE=release for release (only runs if bin exists)
 
-set MODE=dev
+set MODE=release
 
 if "%MODE%"=="dev" (
     REM Development mode: always clean, build, and run

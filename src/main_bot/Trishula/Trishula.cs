@@ -237,6 +237,10 @@ public class Trishula : Bot
             {
                 angleTolerance = 0.0;
             }
+            if (DistanceTo(target.location.X, target.location.Y) < 150 && target.active) {
+                bulletPower = 3;
+                angleTolerance = 5;
+            }
             if (Energy > 5) { // Stop menembak saat energi sedikit
                 LinearTargeting(bulletPower, angleTolerance);
             }

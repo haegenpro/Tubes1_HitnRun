@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Forza_Ferrari")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07d4293c1255097c4f34f7ad4dc95d03fb2436e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5de1a51b7ea9fd7e425c3a60a27f6dd83fccfb44")]
 [assembly: System.Reflection.AssemblyProductAttribute("Forza_Ferrari")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Forza_Ferrari")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
