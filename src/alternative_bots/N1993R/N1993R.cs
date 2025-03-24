@@ -16,7 +16,7 @@ public class N1993R : Bot
     private long lastScannedTime = 0;
     private const long scanTimeout = 8;
 
-    public static readonly Random rnd = new Random();
+    public static Random rnd = new Random();
 
     static void Main()
     {
@@ -44,6 +44,7 @@ public class N1993R : Bot
             if (!isAligning)
             {
                 AlignWithWall();
+
             }
             MoveAlongWall();
             Go();
@@ -213,7 +214,7 @@ public class N1993R : Bot
                 if (distanceToTopWall > SafeDistance)
                 {
                     double deltaDistance = distanceToTopWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
 
                     if (alignHeading != 90)
                     {
@@ -230,7 +231,7 @@ public class N1993R : Bot
                 else
                 {
                     double deltaDistance = distanceToBottomWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
 
                     if (alignHeading == 90)
                     {
@@ -251,7 +252,7 @@ public class N1993R : Bot
                 if (distanceToBottomWall > SafeDistance)
                 {
                     double deltaDistance = distanceToBottomWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
                     if (alignHeading != 270)
                     {
                         Forward(-move);
@@ -266,7 +267,7 @@ public class N1993R : Bot
                 else
                 {
                     double deltaDistance = distanceToTopWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
 
                     if (alignHeading == 270)
                     {
@@ -299,7 +300,7 @@ public class N1993R : Bot
                 if (distanceToLeftWall > SafeDistance)
                 {
                     double deltaDistance = distanceToLeftWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
                     if (alignHeading != 180)
                     {
                         Forward(-move);
@@ -316,7 +317,7 @@ public class N1993R : Bot
                 else
                 {
                     double deltaDistance = distanceToRightWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
                     if (alignHeading == 180)
                     {
                         Forward(-move);
@@ -336,7 +337,7 @@ public class N1993R : Bot
                 if (distanceToRightWall > SafeDistance)
                 {
                     double deltaDistance = distanceToRightWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
                     if (alignHeading != 0)
                     {
                         Forward(-move);
@@ -354,7 +355,7 @@ public class N1993R : Bot
                 else
                 {
                     double deltaDistance = distanceToLeftWall - SafeDistance;
-                    double move = rnd.Next(35, (int)deltaDistance);
+                    double move = rnd.Next(0, (int)deltaDistance);
                     if (alignHeading == 0)
                     {
                         Forward(-move);
@@ -406,9 +407,11 @@ public class N1993R : Bot
             SetForward(Math.Min(distance / 2, 150));
             Hostile = true;
         }
+
         Rescan();
         ClearEvents();
     }
+
 
     public double AngleProjection(ScannedBotEvent e)
     {
