@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Owen\\OneDrive\\Documents\\Owen\\STIMA\\TUBES1-Dev\\N1993R\\N1993R.csproj": {}
+    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Owen\\OneDrive\\Documents\\Owen\\STIMA\\TUBES1-Dev\\N1993R\\N1993R.csproj": {
+    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Owen\\OneDrive\\Documents\\Owen\\STIMA\\TUBES1-Dev\\N1993R\\N1993R.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
         "projectName": "N1993R",
-        "projectPath": "C:\\Users\\Owen\\OneDrive\\Documents\\Owen\\STIMA\\TUBES1-Dev\\N1993R\\N1993R.csproj",
-        "packagesPath": "C:\\Users\\Owen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Owen\\OneDrive\\Documents\\Owen\\STIMA\\TUBES1-Dev\\N1993R\\obj\\",
+        "projectPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\N1993R.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\N1993R\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Owen\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -64,24 +64,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.36, 6.0.36]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
