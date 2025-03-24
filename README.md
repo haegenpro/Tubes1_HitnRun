@@ -106,6 +106,6 @@ This repository contains multiple bots developed for the Robocode game using C#.
 ```
 
 ## Author
-Daniel Pedrosa Wu (13523099)
-Steven Owen Liauw (13523103)
-Haegen Quinston (13523109)
+**Daniel Pedrosa Wu (13523099)**
+**Steven Owen Liauw (13523103)**
+**Haegen Quinston (13523109)**
