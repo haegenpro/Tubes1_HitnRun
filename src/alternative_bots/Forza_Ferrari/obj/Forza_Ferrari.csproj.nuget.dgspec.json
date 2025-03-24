@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj": {}
+    "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj": {
+    "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj",
+        "projectUniqueName": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj",
         "projectName": "Forza_Ferrari",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\obj\\",
+        "projectPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\Forza_Ferrari.csproj",
+        "packagesPath": "C:\\Users\\haege\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\alternative_bots\\Forza_Ferrari\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\haege\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj": {}
+    "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj": {
+    "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj",
+        "projectUniqueName": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj",
         "projectName": "Trishula",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Project\\Tugas-Besar-1-Stima-IF2211-K02\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\obj\\",
+        "projectPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\Trishula.csproj",
+        "packagesPath": "C:\\Users\\haege\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\haege\\OneDrive\\Documents\\vscode\\ITB\\Semester 4\\Tubes1_HitnRun\\src\\main_bot\\Trishula\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\haege\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

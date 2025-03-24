@@ -1,5 +1,5 @@
 @echo off
-REM Forza-Ferrari.cmd - Run the bot in development or release mode
+REM Forza_Ferrari.cmd - Run the bot in development or release mode
 REM Set MODE=dev for development (default, always rebuilds)
 REM Set MODE=release for release (only runs if bin exists)
 
