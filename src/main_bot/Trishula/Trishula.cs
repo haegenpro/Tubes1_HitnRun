@@ -212,7 +212,7 @@ public class Trishula : Bot
         if (target.id == e.ScannedBotId) {
             // Menentukan power dan toleransi angle dari tembakan
             double safeDistance = Math.Max(DistanceTo(target.location.X, target.location.Y), 1.0);
-            double distanceComponent = 0.5 + (BASE_DISTANCE/safeDistance);
+            double distanceComponent = 0.65 + (BASE_DISTANCE/safeDistance);
             double enemyEnergyLimit = target.energy * 0.3;
             double selfEnergyLimit = Energy * 0.2;  
             double bulletPower = Math.Min(Math.Min(enemyEnergyLimit, selfEnergyLimit), distanceComponent);
