@@ -62,14 +62,10 @@ This repository contains multiple bots developed for the Robocode game using C#.
 ├── LICENSE
 ├── README.md
 ├── Tubes1_HitnRun.sln
-├── config.properties
 ├── doc
 │   └── laporan.pdf
-├── games.properties
 ├── img
 │   └── image.png
-├── robocode-tankroyale-gui-0.30.0.jar
-├── server.properties
 └── src
     ├── alternative_bots
     │   ├── Forza_Ferrari
