@@ -1,4 +1,4 @@
-# IF2230 Strategi Algoritma
+# Tugas Besar IF2211 Strategi Algoritma
 
 ## Overview
 This repository contains multiple bots developed for the Robocode game using C#. Each bot leverages a unique greedy algorithm to make quick, locally optimal decisions during battles. With the Robocode.TankRoyale.BotApi, the bots are built to navigate, target, and attack opponents effectively using this API.
@@ -106,7 +106,7 @@ This repository contains multiple bots developed for the Robocode game using C#.
             └── obj
 ```
 
-## Author
+## Authors
 - **Daniel Pedrosa Wu (13523099)**
 - **Steven Owen Liauw (13523103)**
 - **Haegen Quinston (13523109)**
