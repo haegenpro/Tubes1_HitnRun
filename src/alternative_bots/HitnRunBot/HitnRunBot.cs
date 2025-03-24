@@ -27,7 +27,7 @@ public class HitnRunBot : Bot
         GunTurnRate = 20;
         SetTurnGunLeft(Double.PositiveInfinity);
         SetTurnRadarLeft(Double.PositiveInfinity);
-        
+
         while (IsRunning)
         {
             TurnRadarLeft(360);
@@ -46,7 +46,6 @@ public class HitnRunBot : Bot
             movingForward = true;
         }
     }
-
     public override void OnScannedBot(ScannedBotEvent e)
     {
         double distance = DistanceTo(e.X, e.Y);
@@ -85,7 +84,6 @@ public class HitnRunBot : Bot
         double bulletSpeed = CalcBulletSpeed(firePower);
         double enemyVX = e.Speed * Math.Cos(e.Direction * Math.PI / 180);
         double enemyVY = e.Speed * Math.Sin(e.Direction * Math.PI / 180);
-        
         double dx = e.X - X;
         double dy = e.Y - Y;
         double a = enemyVX * enemyVX + enemyVY * enemyVY - bulletSpeed * bulletSpeed;
