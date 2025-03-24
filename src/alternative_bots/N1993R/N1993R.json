@@ -1,7 +1,7 @@
 {
   "name": "N1993R",
   "version": "1.0",
-  "authors": ["Steven Owen"],
+  "authors": ["Daniel Pedrosa Wu", "Haegen Quinston", "Steven Owen Liauw"],
   "description": "A bot that will go to the nearest wall and can switch to escape and ram mode if the enemy is near.",
   "homepage": "",
   "countryCodes": ["id"],

@@ -1,7 +1,7 @@
 {
   "name": "Forza Ferrari",
   "version": "1.0",
-  "authors": [ "Daniel Pedrosa", "Haegen Quinston", "Steven Owen"],
+  "authors": [ "Daniel Pedrosa Wu", "Haegen Quinston", "Steven Owen Liauw"],
   "description": "Forza Ferrari uses the greedy algorithm in its evaluation method, where it evaluates the opponent that is most isolated from others.",
   "homepage": "",
   "countryCodes": [ "id" ],

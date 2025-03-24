@@ -1,8 +1,8 @@
 {
     "name": "Trishula",
     "version": "1.0",
-    "authors": ["Daniel Pedrosa Wu"],
-    "description": "W.I.P.",
+    "authors": ["Daniel Pedrosa Wu, Haegen Quinston", "Steven Owen Liauw"],
+    "description": "A bot that try to move to the least risky spot",
     "homepage": "",
     "countryCodes": ["id"],
     "platform": ".Net 6.0",
